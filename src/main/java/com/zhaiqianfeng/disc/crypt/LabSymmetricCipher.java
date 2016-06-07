@@ -8,11 +8,10 @@
 package com.zhaiqianfeng.disc.crypt;
 
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.util.encoders.Hex;
@@ -35,7 +34,7 @@ public class LabSymmetricCipher {
 			Key secretKey=keyGenerator.generateKey();
 			byte[] byteKey=secretKey.getEncoded();
 			
-			//赋予Key特性，两种获取Key的方式
+			//赋予Key特性，获取特性的Key有两种方式
 			//方式一
 //			DESKeySpec dESKeySpec=new DESKeySpec(byteKey);
 //			SecretKeyFactory factory=SecretKeyFactory.getInstance("DES");
@@ -44,14 +43,18 @@ public class LabSymmetricCipher {
 			//方式二
 			Key dESKey=new SecretKeySpec(byteKey,"DES");
 			
-			
+			//加密
 			Cipher cipher=Cipher.getInstance("DES/ECB/PKCS5Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, dESKey);
-			byte[] desRes=cipher.doFinal(src.getBytes());
-			System.out.println("jdk DES encode:"+Hex.toHexString(desRes));
+			byte[] encodeDESRes=cipher.doFinal(src.getBytes());
+			System.out.println("jdk DES encode:"+Hex.toHexString(encodeDESRes));
+			
+			//解密
+			cipher.init(Cipher.DECRYPT_MODE, dESKey);
+			byte[] decodeDESRes=cipher.doFinal(encodeDESRes);
+			System.out.println("jdk DES decode:"+new String(decodeDESRes));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 }
