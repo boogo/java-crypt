@@ -22,10 +22,17 @@ public class LabBase64 {
 	 * JDK Base64 实现
 	 */
 	public static void jdkBase64() {
-		// JDK基本的 base64
+
+		// JDK6的 base64
+		String jdk6EncodeRes = javax.xml.bind.DatatypeConverter.printBase64Binary(src.getBytes());
+		System.out.println("jdk6 base64 encode:" + jdk6EncodeRes);
+		String jdk6DecodeRes = new String(javax.xml.bind.DatatypeConverter.parseBase64Binary(jdk6EncodeRes));
+		System.out.println("jdk6 base64 decode:" + jdk6DecodeRes);
+
+		// JDK8基本的 base64
 		// jdk 基本的 base64 编码
 		String encodeRes = Base64.getEncoder().encodeToString(src.getBytes());
-		System.out.println("jdk base64 encode:" + encodeRes);
+		System.out.println("\r\njdk base64 encode:" + encodeRes);
 		// jdk 基本的 base64 解码
 		String decodeRes = new String(Base64.getDecoder().decode(encodeRes));
 		System.out.println("jdk base64 decode:" + decodeRes);
