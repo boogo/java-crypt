@@ -41,25 +41,38 @@ public class LabAsymmetricCipher {
 			PublicKey rsaPublicKey=keyPair.getPublic();
 			PrivateKey rsaPrivateKey=keyPair.getPrivate();
 			
-			//获取规范秘钥
+			//私钥加密 公钥解密之私钥加密
+			//获取规范私钥
 			//Only RSAPrivate(Crt)KeySpec and PKCS8EncodedKeySpec supported for RSA private keys
 			PKCS8EncodedKeySpec pkcs8EncodeKeySpec=new PKCS8EncodedKeySpec(rsaPrivateKey.getEncoded());
 			KeyFactory keyFactory=KeyFactory.getInstance("RSA");
 			Key privateKey=keyFactory.generatePrivate(pkcs8EncodeKeySpec);
-			
-			//私钥加密 公钥解密之私钥加密
+			//私钥加密			
 			Cipher cipher=Cipher.getInstance("RSA");
 			cipher.init(Cipher.ENCRYPT_MODE, privateKey);
 			byte[] encodeRes=cipher.doFinal(src.getBytes());
-			System.out.println("私钥加密结果："+Hex.toHexString(encodeRes));
+			System.out.println("私钥加密 公钥解密之私钥加密结果："+Hex.toHexString(encodeRes));
 			
 			//私钥加密 公钥解密之公钥解密
+			//获取规范公钥
 			//Only RSAPublicKeySpec and X509EncodedKeySpec supported for RSA public keys
 			X509EncodedKeySpec x509EncodedKeySpec=new X509EncodedKeySpec(rsaPublicKey.getEncoded());
 			Key publicKey=keyFactory.generatePublic(x509EncodedKeySpec);
 			cipher.init(Cipher.DECRYPT_MODE, publicKey);
 			byte[] decodeRes=cipher.doFinal(encodeRes);
-			System.out.println("公钥解密结果："+new String(decodeRes));
+			System.out.println("私钥加密 公钥解密之公钥解密结果："+new String(decodeRes));
+			
+			
+			//公钥加密 私钥解密之公钥加密
+			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+			encodeRes=cipher.doFinal(src.getBytes());
+			System.out.println("\r\n公钥加密 私钥加密之公钥加密结果："+Hex.toHexString(encodeRes));
+			cipher.init(Cipher.DECRYPT_MODE, privateKey);
+			decodeRes=cipher.doFinal(encodeRes);
+			System.out.println("公钥加密 私钥加密之私钥结果："+new String(decodeRes));
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
