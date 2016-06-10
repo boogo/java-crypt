@@ -9,6 +9,9 @@ package com.zhaiqianfeng.disc.crypt;
 
 import java.util.Base64;
 
+/**
+ *	Base64算法 
+ */
 public class LabBase64 {
 
 	// 待处理的字符串

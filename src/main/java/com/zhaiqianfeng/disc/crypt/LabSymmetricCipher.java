@@ -17,9 +17,9 @@ import org.bouncycastle.util.encoders.Hex;
 
 /**
  * 对称加密算法
- *
  */
 public class LabSymmetricCipher {
+	// 待处理的字符串
 	private static String src = "com.zhaiqiafneng";
 
 	public static void main(String[] args) {

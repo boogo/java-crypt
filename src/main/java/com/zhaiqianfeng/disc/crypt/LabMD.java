@@ -19,6 +19,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.util.encoders.Hex;
 
+/**
+ *	摘要算法 
+ */
 public class LabMD {
 
 	// 待处理的字符串
